@@ -383,6 +383,12 @@
                  <div class="progress-bar"></div>
              </div>
          </div>
+         <!-- ── STATE EXPORT / IMPORT CONTROLS ── -->
+         <div class="section" style="text-align:center; margin-bottom:10px;">
+             <button id="exportStateBtn">Download State JSON</button>
+             <input type="file" id="importStateFile" accept="application/json" style="display:none">
+             <button id="importStateBtn">Upload State JSON</button>
+         </div>
 
     </div>
 
@@ -392,6 +398,9 @@
             // --- DOM Elements ---
             const datePicker = document.getElementById('datePicker');
             const saveStatus = document.getElementById('saveStatus');
+            const exportStateBtn = document.getElementById('exportStateBtn');
+            const importStateBtn = document.getElementById('importStateBtn');
+            const importStateFile = document.getElementById('importStateFile');
             const dailyGoalsDisplay = document.getElementById('dailyGoalsDisplay');
             const nextVideoDisplay = document.getElementById('nextVideoDisplay');
             const watchNextVideoButton = document.getElementById('watchNextVideoButton');
@@ -886,6 +895,43 @@
                  undoLastVideoButton.addEventListener('click', handleUndoLast);
                  // Subcategory listeners added in buildSubcategoryTrackers
              }
+             // ── EXPORT: fetch live state and download as .json ──
+             exportStateBtn.addEventListener('click', async () => {
+               // assume you have an endpoint /api/state that returns appState
+               const res = await fetch('/api/state');
+               const data = await res.json();
+               const blob = new Blob([JSON.stringify(data, null,2)], { type: 'application/json' });
+               const a = document.createElement('a');
+               a.href = URL.createObjectURL(blob);
+               a.download = 'radiology-tracker-state.json';
+               a.click();
+             });
+
+             // ── IMPORT: user picks a file, we read it, override appState, re‑save & redraw ──
+             importStateBtn.addEventListener('click', () => importStateFile.click());
+             
+             importStateFile.addEventListener('change', (e) => {
+               const file = e.target.files[0];
+               if (!file) return;
+               const reader = new FileReader();
+               reader.onload = () => {
+                 try {
+                   const imported = JSON.parse(reader.result);
+                   // you might want to validate shape here…
+                   appState = imported;
+                   saveState();              // push it back to /api/state
+                   // redraw everything under the current date
+                   displayDataForDate(datePicker.value);
+                   displayNextVideoInfo();
+                   updateOverallProgressBars();
+                   alert('State imported successfully!');
+                 } catch (err) {
+                   console.error(err);
+                   alert('Error parsing JSON file');
+                 }
+               };
+               reader.readAsText(file);
+             });
 
             // Run the app
             initApp();
