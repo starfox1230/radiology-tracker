@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Call Prep Tracker</title>
+    <title>Radiology Prep Tracker</title>
     <style>
         :root {
             --bg-color: #101015;
@@ -25,8 +25,8 @@
             --input-glow-focus: 0 0 4px var(--primary-neon), 0 0 8px var(--primary-neon);
             --card-glow: 0 0 12px rgba(0, 255, 255, 0.15);
             /* Reduced glow intensity */
-            --text-glow-primary: 0 0 2px var(--primary-neon), 0 0 3px var(--primary-neon);
-            --text-glow-secondary: 0 0 2px var(--secondary-neon), 0 0 3px var(--secondary-neon);
+            --text-glow-primary: 0 0 3px var(--primary-neon), 0 0 6px var(--primary-neon);
+            --text-glow-secondary: 0 0 3px var(--secondary-neon), 0 0 6px var(--secondary-neon);
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -267,47 +267,12 @@
         .save-status { text-align: center; margin-top: 15px; font-style: italic; color: var(--tertiary-neon); height: 1.2em; opacity: 0; transition: opacity 0.5s ease; }
         .save-status.visible { opacity: 1; }
 
-
-        /* ── Neon‑glow State Buttons ── */
-        .state-btn {
-          padding: 10px 20px;
-          border-radius: 20px;
-          background: var(--button-bg);
-          border: 1px solid;
-          font-weight: bold;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          margin: 0 10px;
-        }
-        
-        /* Download (accent‑neon) */
-        .export-btn {
-          border-color: var(--accent-neon);
-          color: var(--accent-neon);
-          box-shadow: 0 0 4px var(--accent-neon), 0 0 6px var(--accent-neon);
-        }
-        .export-btn:hover {
-          background-color: rgba(255,204,0,0.1);
-          box-shadow: 0 0 6px var(--accent-neon), 0 0 10px var(--accent-neon), 0 0 14px var(--accent-neon);
-        }
-        
-        /* Upload (tertiary‑neon) */
-        .import-btn {
-          border-color: var(--tertiary-neon);
-          color: var(--tertiary-neon);
-          box-shadow: 0 0 4px var(--tertiary-neon), 0 0 6px var(--tertiary-neon);
-        }
-        .import-btn:hover {
-          background-color: rgba(57,255,20,0.1);
-          box-shadow: 0 0 6px var(--tertiary-neon), 0 0 10px var(--tertiary-neon), 0 0 14px var(--tertiary-neon);
-        }
-
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Call Prep Tracker</h1>
+        <h1>Radiology Prep Tracker</h1>
 
         <!-- Date Selection -->
         <div class="section date-selector">
@@ -420,9 +385,9 @@
          </div>
          <!-- ── STATE EXPORT / IMPORT CONTROLS ── -->
          <div class="section" style="text-align:center; margin-bottom:10px;">
-             <button id="exportStateBtn" class="state-btn export-btn">Download State JSON</button>
+             <button id="exportStateBtn">Download State JSON</button>
              <input type="file" id="importStateFile" accept="application/json" style="display:none">
-             <button id="importStateBtn" class="state-btn import-btn">Upload State JSON</button>
+             <button id="importStateBtn">Upload State JSON</button>
          </div>
 
     </div>
